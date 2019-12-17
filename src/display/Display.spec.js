@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 import Display from "./Display";
@@ -7,22 +7,19 @@ import Display from "./Display";
 test("Display renders without crashing", () => {
   render(<Display />);
 });
-
-test("displays if gate is open and if it is locked/unlocked", () => {
-  // Arrange
+test("defaults to `unlocked` and `open`", () => {
   const { getByText } = render(<Display />);
+  getByText(/unlocked/i);
+  getByText(/open/i);
+});
+
+test("displays if gate is open/closed and if it is locked/unlocked", () => {
+  // Arrange
+  const { getByText, getByTestId } = render(<Display />);
   // Act - getting the node by text
   getByText(/open/i);
   getByText(/unlocked/i);
   getByText(/locked/i);
-
-  // Assertion is if ^^^ is truthy
-});
-
-test("displays if gate is closed", () => {
-  // Arrange
-  const { getByTestId } = render(<Display />);
-  // Act - getting the node by text
   getByTestId(/closed/i);
   // Assertion is if ^^^ is truthy
 });
